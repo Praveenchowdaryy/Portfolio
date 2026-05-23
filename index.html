@@ -1040,9 +1040,9 @@
 
         <div class="hero-stats animate">
           <div class="stat-card"><p class="stat-value" data-target="1" data-suffix="TB+">0</p><p class="stat-label">Daily Data Processed</p></div>
-          <div class="stat-card"><p class="stat-value" data-target="99.9%">0%</p><p class="stat-label">Pipeline Reliability</p></div>
-          <div class="stat-card"><p class="stat-value" data-target="40%">0%</p><p class="stat-label">Performance Improvement</p></div>
-          <div class="stat-card"><p class="stat-value" data-target="25%">0%</p><p class="stat-label">Cost Reduction</p></div>
+          <div class="stat-card"><p class="stat-value" data-target="99.9" data-suffix="%">0%</p><p class="stat-label">Pipeline Reliability</p></div>
+          <div class="stat-card"><p class="stat-value" data-target="40" data-suffix="%">0%</p><p class="stat-label">Performance Improvement</p></div>
+          <div class="stat-card"><p class="stat-value" data-target="25" data-suffix="%">0%</p><p class="stat-label">Cost Reduction</p></div>
         </div>
 
         <div class="social-row animate">
@@ -1327,13 +1327,15 @@
       const start = 0;
       const startTime = performance.now();
       const isDecimal = String(target).includes('.');
+      const suffix = element.dataset.suffix || '';
       function update(now) {
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / duration, 1);
         const value = start + (target - start) * progress;
-        element.textContent = isDecimal ? value.toFixed(1) : Math.round(value);
+        const displayValue = isDecimal ? value.toFixed(1) : Math.round(value);
+        element.textContent = displayValue + suffix;
         if (progress < 1) requestAnimationFrame(update);
-        else if (!isDecimal) element.textContent = Math.round(target);
+        else element.textContent = (isDecimal ? target.toFixed(1) : Math.round(target)) + suffix;
       }
       requestAnimationFrame(update);
     }
